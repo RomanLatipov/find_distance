@@ -1,5 +1,29 @@
 function findDistance(graph, vertexA, vertexB) {
-  // type your code here
+  let temp;
+  function recursive(vertex, arr) {
+    if (graph[vertex].length === 0)
+    arr.push(vertex);
+    if(graph[vertex].includes(vertexB)) {
+      temp = arr;
+      return;
+    }
+    for (const elem of graph[vertex]) {
+      recursive(elem, arr);
+    }
+  }
+  recursive(vertexA, []);
+  if (temp) {
+    for (let i=temp.length-2; i>=0; i--) {
+      if(!graph[temp[i]].includes(temp[i+1])){
+        temp.splice(i,1)
+      }
+    }
+    return temp.length;
+  }
+  else
+    return -1;
+  
+  
 }
 
 if (require.main === module) {
@@ -19,6 +43,17 @@ if (require.main === module) {
 
   console.log("Expecting: -1");
   console.log(findDistance(graph, "dave", "carl"));
+  // const graphMed = {
+  //   jan: ["cranberry", "jamboree"],
+  //   john: ["jambaby"],
+  //   jambaby: ["jan", "cranberry"],
+  //   carl: [],
+  //   dave: ["john", "carl"],
+  //   cranberry: [],
+  //   hamtaro: ["jambaby", "dave"],
+  //   jamboree: ["carl", "john"]
+  // };
+  // console.log(findDistance(graphMed, "jan", "jan"));
 }
 
 module.exports = findDistance;
